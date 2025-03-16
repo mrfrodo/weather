@@ -14,12 +14,9 @@ class WeatherDatasource {
         }
     }
 
-    suspend fun getWeaherData(): GEOJsonResponse {
-        try {
-            return ktorHttpClient.get("https://in2000.api.met.no/weatherapi/metalerts/2.0/current.json")
-        } catch (e: Exception) {
-            Log.d("WeatherDatasource", "Error fetching weather data: ${e.message}")
-            return GEOJsonResponse(emptyList())
-        }
+    suspend fun getWeatherData(): GEOJsonResponse {
+        Log.d("WeatherDatasource", "getWeaherData")
+        val response: GEOJsonResponse =ktorHttpClient.get("https://in2000.api.met.no/weatherapi/metalerts/2.0/current.json")
+        return response;
     }
 }

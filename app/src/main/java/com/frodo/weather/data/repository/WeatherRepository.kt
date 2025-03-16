@@ -4,7 +4,7 @@ import com.frodo.weather.data.datasource.WeatherDatasource
 import com.frodo.weather.data.model.GEOJsonResponse
 
 class WeatherRepository(private val weatherDatasource: WeatherDatasource) {
-    suspend fun getWeaherData(): GEOJsonResponse {
-        return weatherDatasource.getWeaherData()
+    suspend fun getWeatherData(): GEOJsonResponse {
+        return weatherDatasource.getWeatherData()
     }
 }
