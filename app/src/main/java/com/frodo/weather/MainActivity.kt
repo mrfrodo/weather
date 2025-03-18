@@ -14,9 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.frodo.weather.ui.theme.WeatherTheme
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.frodo.weather.data.datasource.WeatherDatasource
+import com.frodo.weather.data.repository.WeatherRepository
 import com.mapbox.geojson.Point
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
@@ -25,6 +27,11 @@ import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportS
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val dataSource = WeatherDatasource()
+        val repository = WeatherRepository(dataSource)
+        val viewModel = WeatherViewModel(repository)
+
         enableEdgeToEdge()
         setContent {
             WeatherTheme {
@@ -43,8 +50,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MapBoxScreen(modifier: Modifier, viewModel: WeatherViewModel) {
-    viewModel.initialize()
-    Log.d("MAPSCREEN", "Initialized")
+
+    val hazardAlerts = viewModel.weatherData.collectAsState().value
+    Log.d("MapBoxScreen", "hazardAlerts: ${hazardAlerts.size}")
 
     MapboxMap(
         modifier = Modifier.fillMaxSize(),
@@ -60,15 +68,6 @@ fun MapBoxScreen(modifier: Modifier, viewModel: WeatherViewModel) {
 
 }
 
-@Composable
-fun MainScreen(modifier: Modifier, viewModel: WeatherViewModel) {
-
-    viewModel.initialize()
-    //var response = viewModel.getWeather()
-
-
-
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

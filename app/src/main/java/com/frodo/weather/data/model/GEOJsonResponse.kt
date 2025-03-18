@@ -1,5 +1,6 @@
 package com.frodo.weather.data.model
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -20,7 +21,7 @@ data class Feature(
 
 @Serializable
 data class Geometry(
-    val coordinates: List<List<List<Double>>>,
+    val coordinates: List<List<List<@Contextual Any>>>,
     val type: String
 )
 

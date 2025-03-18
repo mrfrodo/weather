@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class WeatherViewModel() : ViewModel() {
+class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
     val weatherRepository = WeatherRepository(weatherDatasource = WeatherDatasource())
 
     private val _weatherData = MutableStateFlow<List<GEOJsonResponse>>(emptyList())
@@ -24,6 +24,7 @@ class WeatherViewModel() : ViewModel() {
         if (!hasInitialized) {
             hasInitialized = true
         }
+        getWeather()
     }
 
     fun getWeather() {

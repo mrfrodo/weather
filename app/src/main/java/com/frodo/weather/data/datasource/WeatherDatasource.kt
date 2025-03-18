@@ -3,20 +3,31 @@ package com.frodo.weather.data.datasource
 import android.util.Log
 import com.frodo.weather.data.model.GEOJsonResponse
 import io.ktor.client.HttpClient
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.call.body
+import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
+import io.ktor.client.statement.HttpResponse
+import io.ktor.serialization.gson.gson
 
 class WeatherDatasource {
-    private val ktorHttpClient = HttpClient {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer()
+
+    val client = HttpClient(Android){
+        install(ContentNegotiation){
+            gson()
         }
+
     }
 
     suspend fun getWeatherData(): GEOJsonResponse {
-        Log.d("WeatherDatasource", "getWeaherData")
-        val response: GEOJsonResponse =ktorHttpClient.get("https://in2000.api.met.no/weatherapi/metalerts/2.0/current.json")
-        return response;
+        try {
+            Log.d("DEBUG", "Attempting to fetch GeoJSON data.")
+            val response: HttpResponse = client.get("https://in2000.api.met.no/weatherapi/metalerts/2.0/current.json")
+            Log.d("DEBUG", "Successfully retrieved data: $response")
+            return response.body()
+        } catch (e: Exception) {
+            Log.e("ERROR", e.toString())
+            return null
+        }
     }
 }

@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    kotlin("plugin.serialization") version "1.9.0"
+    kotlin("plugin.serialization") version "2.1.10"
 }
 
 android {
@@ -31,11 +31,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -68,8 +68,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5")
-
     implementation("io.ktor:ktor-client-core:1.6.8")
     implementation("io.ktor:ktor-client-cio:1.6.8")
     implementation("io.ktor:ktor-client-serialization:1.6.8")
@@ -77,5 +75,16 @@ dependencies {
     //Mapbox
     implementation("com.mapbox.maps:android:11.10.2")
     implementation("com.mapbox.extension:maps-compose:11.10.2")
+
+    //Ktor
+    implementation("io.ktor:ktor-client-core:3.1.1")
+    implementation("io.ktor:ktor-client-cio:3.1.1")
+    implementation("io.ktor:ktor-client-content-negotiation:3.1.1")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.1.1")
+    implementation("io.ktor:ktor-client-android:3.0.3")
+    implementation("io.ktor:ktor-serialization-gson:3.0.3")
+
+    //Kotlin
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
 
 }
